@@ -1,0 +1,39 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const issues = await getCollection('issues');
+  return issues
+    .filter((issue) => issue.data.status === 'published')
+    .map((issue) => ({
+      params: { slug: issue.id },
+      props: { issue },
+    }));
+}
+
+const { issue } = Astro.props;
+const { Content } = await render(issue);
+---
+
+<Layout title={`${issue.data.title} · The Hedge`} description={issue.data.subtitle ?? undefined}>
+  <header class="mb-12">
+    <p class="text-xs uppercase tracking-widest text-stone-500">
+      <a href="/issues/" class="underline decoration-stone-300">Issue {issue.data.number}</a>
+      <span class="mx-2">·</span>
+      {issue.data.cluster}
+    </p>
+    <h1 class="text-3xl md:text-4xl font-medium tracking-tight mt-3">{issue.data.title}</h1>
+    {issue.data.subtitle && <p class="text-stone-600 mt-4 italic text-lg">{issue.data.subtitle}</p>}
+  </header>
+
+  <article class="prose prose-stone prose-lg max-w-none prose-headings:font-medium prose-headings:tracking-tight">
+    <Content />
+  </article>
+
+  <nav class="mt-20 pt-6 border-t border-stone-300 text-sm text-stone-600 flex flex-wrap gap-x-4 gap-y-2">
+    <a href="/" class="underline">Home</a>
+    <a href="/issues/" class="underline">All issues</a>
+    <a href="/rss.xml" class="underline">RSS</a>
+  </nav>
+</Layout>

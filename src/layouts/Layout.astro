@@ -1,0 +1,26 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Weekly reports from the hedge.' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="alternate" type="application/rss+xml" title="The Hedge" href="/rss.xml" />
+  </head>
+  <body class="bg-stone-50 text-stone-900">
+    <main class="max-w-prose mx-auto px-6 py-16">
+      <slot />
+    </main>
+  </body>
+</html>

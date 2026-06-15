@@ -15,4 +15,17 @@ const issues = defineCollection({
   }),
 });
 
-export const collections = { issues };
+// Automated daily/weekly dispatches — grounded in real weather + phenology +
+// almanac data, written by an LLM. EXPERIMENTAL automation test (2026-06-15).
+const dispatches = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/dispatches' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.date(),
+    weather: z.string().optional(),
+    generated: z.boolean().default(false),
+    model: z.string().optional(),
+  }),
+});
+
+export const collections = { issues, dispatches };

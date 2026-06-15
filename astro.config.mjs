@@ -3,7 +3,7 @@ import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://hedge.fogletter.com',
+  site: 'https://thehedge.ink',
   integrations: [mdx()],
   vite: {
     plugins: [tailwindcss()],
